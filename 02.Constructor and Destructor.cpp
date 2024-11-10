@@ -3,15 +3,15 @@ using namespace std;
 
 class Customer {
     private:
-        string name;
-        int account_number;
-        int balance;
-        int *data;
         int id;
+        int *data;
+        string name;
+        int balance;
+        int account_number;
+        static int total_balance;
+        static int total_customers;
         
     public:
-        static int total_customers;
-
         // Constructor Overloading
         Customer() {
             data = new int;
@@ -19,6 +19,20 @@ class Customer {
             cout<<"Inside Default Constructor"<<endl;
             ++total_customers;
             this->id = total_customers;
+        }
+
+        void deposit(int amount) {
+            if(amount>0) {
+                balance += amount;
+                total_balance += amount;
+            }
+        }
+
+        void withdraw(int amount) {
+            if(amount<=balance and amount>0) {
+                balance -= amount;
+                total_balance -= amount;
+            }
         }
 
         inline Customer(string name): name(name) {
@@ -58,6 +72,7 @@ class Customer {
             this->balance = c.balance;
             ++total_customers;
             this->id = total_customers;
+            total_balance += balance;
         }
 
         // Destructor gets called in reverse order
@@ -69,9 +84,18 @@ class Customer {
         void displayDetails() {
             cout<<this->name<<" "<<this->account_number<<" "<<this->balance<<endl;
         }
+
+        void static displayTotalCustomers() {
+            cout<<total_customers<<endl;
+        }
+
+        void static displayTotalBalance() {
+            cout<<total_balance<<endl;
+        }
 };
 
 int Customer::total_customers = 0;
+int Customer::total_balance = 0;
 
 int main() {
     Customer c1("Vedant Yetekar", 1, 1e9);
@@ -79,6 +103,7 @@ int main() {
     Customer c3("Jessica");
     Customer c4;
     Customer c5(c1);
+    Customer *c6 = new Customer(c1);
 
     // Assignment Operator
     c2 = c3;
@@ -88,6 +113,16 @@ int main() {
     c3.displayDetails();
     c4.displayDetails();
     c5.displayDetails();
+    c6->displayDetails();
+
+    Customer::displayTotalCustomers();
+
+    c1.deposit(1000);
+    c1.withdraw(1000000500);
+
+    Customer::displayTotalBalance();
+
+    delete c6;
 
     return 0;
 }
