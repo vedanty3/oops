@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-// 1. Single Inheritance
+// 1. Single Inheritance & Hierarchical Inheritance
 class Human {
     protected:
         string name;
@@ -95,6 +95,78 @@ class Manager : public Employee {
         }
 };
 
+// 3. Multiple Inheritance
+class Engineer {
+    public:
+        string specialization;
+    
+    void displaySpecialization() {
+        cout<<"I've done "<<this->specialization<<" engineering."<<endl;
+    }
+};
+
+class Youtuber {
+    public:
+        int subscribers;
+
+        void contentCreator() {
+            cout<<"I've a subscriber base of "<<this->subscribers<<"."<<endl;
+        }
+};
+
+class YTEducator: public Engineer, public Youtuber{
+    public:
+        string name;
+
+        YTEducator(string name, string specialization, int subscribers) {
+            this->name = name;
+            this->specialization = specialization;
+            this->subscribers = subscribers;
+        }
+
+        void display() {
+            cout<<this->name<<" "<<this->specialization<<" "<<this->subscribers<<endl;
+            displaySpecialization();
+            contentCreator();
+        }
+};
+
+// 4. Hybrid Inheritance
+class LivingBeing {
+    public:
+        void print() {
+            cout<<"I am student."<<endl;
+        }
+};
+
+class Male {
+    public:
+        void malePrint() {
+            cout<<"I am male."<<endl;
+        }
+};
+
+class Female {
+    public:
+        void femalePrint() {
+            cout<<"I am female."<<endl;
+        }
+};
+
+class Boy: public LivingBeing, public Male {
+    public:
+        void boyPrint() {
+            cout<<"I am boy."<<endl;
+        }
+};
+
+class Girl : public LivingBeing, public Female {
+    public:
+        void girlPrint() {
+            cout<<"I am girl."<<endl;
+        }
+};
+
 int main() {
     Student s("Vedant Yetekar", 21, 1e5);
     Professor f("John Doe", 35, 2e5);
@@ -104,6 +176,19 @@ int main() {
 
     Manager m("James Watson", 3e5, 55, "Software Engineering");
     m.displayDetails();
+
+    YTEducator y("Striver", "CS", 3e5);
+    y.display();
+
+    Girl g;
+    g.girlPrint();
+    g.femalePrint();
+    g.print();
+
+    Boy b;
+    b.boyPrint();
+    b.malePrint();
+    b.print();
     
     return 0;
 }
